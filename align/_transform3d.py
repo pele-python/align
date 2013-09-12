@@ -4,9 +4,18 @@ Created on 12 Sep 2013
 @author: vr274
 '''
 
-class Transform3D(object):
+import numpy as np
+from align import Transformation
+
+class TransformCluster3D(Transformation):
     ''' base interface for transformations in 3D space '''
-        
+    
+    def __init__(self):
+        self.A = np.eye(4)            
+    
+    def transform(self, transformation):
+        self.A = np.dot(transformation.A, self.A)
+        return self
     
     def translate(self, u):
         ''' apply a translation 
@@ -34,3 +43,5 @@ class Transform3D(object):
             -------
             self
         '''
+        self.A[0:3,0:3] = np.dot(R, self.A[0:3,0:3])
+        return self
