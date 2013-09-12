@@ -4,6 +4,33 @@ Created on 12 Sep 2013
 @author: vr274
 '''
 
+class Transformation(object):
+    ''' base interface for transformations 
+    
+        A transformation object stores a set of operations such as inversion, 
+        translation, rotations and permutations and applies it to a set of 
+        coordinates. The transformation is a wrapper to allow treatment of 
+        curvilinear coordinates such as angle axis coordinates for rigid body 
+        systems. 
+    '''
+    
+    def apply(self, coords):
+        ''' apply the transformation to a structure 
+        
+            should this act in place or create and return a copy of 
+            the coordinates?
+        '''
+        raise NotImplementedError
+    
+    def identity(self):
+        ''' set transformation to identity
+        
+            Returns
+            -------
+            self
+        '''
+        raise NotImplementedError
+    
 class StructuralAlignment(object):
     '''
     base interface for structural alignment algorithms
@@ -14,17 +41,21 @@ class StructuralAlignment(object):
         
             The function calculates the transformation which transforms
             coords2 to the best match of coords1.
+            
+            Parameters
+            ----------
+            coords1 : np.array
+                coordinates of structure 1
+            coords2 : np.array
+                coordinates of structure 2
+                
+            Returns
+            -------
+            a transformation object
+            
         '''
         raise NotImplementedError
-    
-    def apply_transformation(self, coords, transformation):
-        ''' Apply a transformation to a set of coordinates.
         
-            should this act in place or create and return a copy of 
-            the coordinates?
-        '''
-        raise NotImplementedError
-    
 class ExactStructuralAlignment(StructuralAlignment):
     ''' Interface for structural alignment, where the structures should
         match within numerical errors
@@ -40,6 +71,11 @@ class ExactStructuralAlignment(StructuralAlignment):
             respectively.
             
             TODO: does this function fit here?
+            
+            Parameters
+            ----------
+            coords : np.array
+                coordinates of the structure
         '''  
         raise NotImplementedError
     
