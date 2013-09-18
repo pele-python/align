@@ -48,7 +48,54 @@ class TestTransformCluster3D(unittest.TestCase):
         TransformCluster3D().translate(np.array([-1., -2, -3])).apply(coords2)
         self.assertLess(np.linalg.norm(coords2 - np.array([0., 0., 0., 3., 3., 3.])), 1e-10)
         
+    def testPermute(self):
+        from _utils import random_permutation
+        for i in xrange(100):
+            coords2 = np.random.random(3*20)
+            coords = coords2.copy().reshape([-1,3])
+            coords3 = coords2.copy()
+            transform = TransformCluster3D(nsites=20)
+            transform2 = TransformCluster3D(nsites=20)
+            
+            perm = random_permutation(20)
+            transform.permute(perm)
+            coords = coords[perm]
+            transform2.transform(TransformCluster3D(nsites=20).permute(perm))
+            
+            perm = random_permutation(20)
+            transform.permute(perm)
+            coords = coords[perm]
+            transform2.transform(TransformCluster3D(nsites=20).permute(perm))
+
+            transform.apply(coords2)
+            transform2.apply(coords3)
+            
+            self.assertLess(np.linalg.norm(coords2 - coords.flatten()), 1e-10)
+            self.assertLess(np.linalg.norm(coords3 - coords.flatten()), 1e-10)
+        
+        
     def testCombine(self):
+        from pele.utils import rotations
+        for i in xrange(100):
+            dx1 = np.random.random(3)
+            R1 = rotations.q2mx(rotations.random_q())
+            dx2 = np.random.random(3)
+            R2 = rotations.q2mx(rotations.random_q())
+            
+            transform = TransformCluster3D().translate(dx1) 
+            transform.rotate(R1)
+            transform.translate(dx2)
+            transform.rotate(R2)
+            
+            x = np.random.random(3*20)
+            x2 = x.reshape([-1,3]).copy()            
+            x2 = np.dot(R1, (x2+dx1).transpose()).transpose()
+            x2 = np.dot(R2, (x2+dx2).transpose()).transpose()
+                    
+            transform.apply(x)            
+            self.assertLess(np.linalg.norm(x - x2.flatten()), 1e-10)            
+    
+    def testTransform(self):
         # first combine 2 translations
         coords = np.array([1., 2., 3., 4., 5., 6.])
         coords2 = coords.copy()
