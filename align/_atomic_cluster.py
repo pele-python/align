@@ -5,7 +5,7 @@ Once we're happy with the interface we can dump this one or merge them.
 """
 import numpy as np
 
-from _interfaces import ApproximateTransformation
+import _interfaces
 
 class TransformPolicy(object):
     def __init__(self, can_rotate=False, can_translate=False, 
@@ -78,12 +78,12 @@ class MeasureCartesian(object):
     def get_dist(self, X1, X2):
         return np.linalg.norm(X1.flatten()-X2.flatten())
     
-    def find_permutation(self, X1, X2):
-        return find_best_permutation(X1, X2, self.permlist)
-    
-    def find_rotation(self, X1, X2):
-        dist, mx = findrotation(X1, X2)
-        return dist, mx
+#    def find_permutation(self, X1, X2):
+#        return find_best_permutation(X1, X2, self.permlist)
+#    
+#    def find_rotation(self, X1, X2):
+#        dist, mx = findrotation(X1, X2)
+#        return dist, mx
     
 class TransformPolicyAtomicCluster(TransformPolicyCartesian):
     def __init__(self):
@@ -94,6 +94,6 @@ class TransformPolicyAtomicCluster(TransformPolicyCartesian):
 
 
 class ApproximateTransformationAtomicCluster(object):
-
+    pass
 
 
