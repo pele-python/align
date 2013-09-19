@@ -1,4 +1,5 @@
 import numpy as np
+from itertools import izip
 
 
 def random_q():
@@ -65,4 +66,14 @@ def random_rotation():
 def random_permutation(natoms):
     perm = range(natoms)
     np.random.shuffle(perm)
+    return perm
+
+def random_permutation_permlist(permlist, natoms):
+    perm = np.zeros(natoms, np.integer)
+    for atomlist in permlist:
+        a = np.copy(atomlist)
+        np.random.shuffle(a)
+        for iold, inew in izip(atomlist, a):
+            perm[iold] = inew
+    print perm
     return perm
