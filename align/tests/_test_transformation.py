@@ -58,7 +58,7 @@ class TestTransformation(unittest.TestCase):
         """return a function which applies all of the functions in flist to the input"""
         def function_chain(tform, x):
             for f in reversed(flist):
-                print f.__name__
+#                print f.__name__
                 f(tform, x)
         return function_chain
 
@@ -77,12 +77,31 @@ class TestTransformation(unittest.TestCase):
             self.apply_tests(tform)
 
 
-#    def test_3(self):
-#        """run do_tests() on all combinations of length 2 of the transformations
-#        """
-#        for flist in itertools.product(self.transform_list, repeat=3):
-#            tform = self.fchain(flist)
-#            self.apply_tests(tform)
+    def test_3(self):
+        """run do_tests() on all combinations of length 3 of the transformations
+        """
+        for flist in itertools.product(self.transform_list, repeat=3):
+            tform = self.fchain(flist)
+            self.apply_tests(tform)
+
+    def test_4(self):
+        """run do_tests() on all combinations of length 3 of the transformations
+        """
+        for flist in itertools.product(self.transform_list, repeat=4):
+            tform = self.fchain(flist)
+            self.apply_tests(tform)
+
+    def test_10(self):
+        """run do_tests() on combinations of length 10 of the transformations
+        """
+        maxiter = 2000
+        i = 0
+        for flist in itertools.product(self.transform_list, repeat=10):
+            tform = self.fchain(flist)
+            self.apply_tests(tform)
+            i += 1
+            if i > maxiter:
+                break
 
 
 if __name__ == "__main__":
