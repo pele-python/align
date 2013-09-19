@@ -6,6 +6,7 @@ Created on 12 Sep 2013
 import unittest
 import numpy as np
 from align import TransformCluster3D
+from _utils import random_rotation
 
 
 class TestTransformCluster3D(unittest.TestCase):
@@ -75,12 +76,12 @@ class TestTransformCluster3D(unittest.TestCase):
         
         
     def testCombine(self):
-        from pele.utils import rotations
+        from _utils import random_rotation
         for i in xrange(100):
             dx1 = np.random.random(3)
-            R1 = rotations.q2mx(rotations.random_q())
+            R1 = random_rotation()
             dx2 = np.random.random(3)
-            R2 = rotations.q2mx(rotations.random_q())
+            R2 = random_rotation()
             
             transform = TransformCluster3D().translate(dx1) 
             transform.rotate(R1)
@@ -105,13 +106,12 @@ class TestTransformCluster3D(unittest.TestCase):
         transform.apply(coords2)
         self.assertLess(np.linalg.norm(coords2 - np.array([4., 7., 10., 7., 10., 13.])), 1e-10)
         
-        from pele.utils import rotations
         for i in xrange(100):
             dx1 = np.random.random(3)
-            R1 = rotations.q2mx(rotations.random_q())
+            R1 = random_rotation()
             dx2 = np.random.random(3)
-            R2 = rotations.q2mx(rotations.random_q())
-            
+            R2 = random_rotation()
+                
             transform = TransformCluster3D().translate(dx1) 
             transform.transform(TransformCluster3D().rotate(R1))
             transform.transform(TransformCluster3D().translate(dx2))
@@ -127,9 +127,8 @@ class TestTransformCluster3D(unittest.TestCase):
         
         
     def testRotate(self):        
-        from pele.utils import rotations
         for i in xrange(100):
-            R = rotations.q2mx(rotations.random_q())
+            R = random_rotation()
             transform = TransformCluster3D().rotate(R) 
             x = np.random.random(3*20)
             x2 = x.reshape([-1,3]).copy()
