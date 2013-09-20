@@ -116,6 +116,8 @@ class TestAlignClusterSimple(unittest.TestCase):
             if i > maxiter:
                 break
 
+for can_permute in [True, False]:
+    for can_invert in [True, False]:
 
 class TestAlignClusterSimple1(TestAlignClusterSimple):
     def setUp(self):

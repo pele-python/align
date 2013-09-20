@@ -83,6 +83,7 @@ class TransformCluster3D(Transformation):
     
     def invert(self):
         self.A[:3,] *= -1
+        return self
         
     @property
     def nsites(self):
@@ -94,10 +95,27 @@ class TransformCluster3D(Transformation):
             raise RuntimeError("cannot change number of sites in transformation class")
         self.permutation = np.arange(nsites)
         
-    def apply_rotation(self, x, mx):
+    def apply_rotation(self, x, rotation_matrix):
         """apply a rotation matrix to a set of coordinates without modifying self"""
-        tform = self.__new__()
-        tform.rotate(mx)
-        tform.apply(x)
+        tform = self.__class__()
+        tform.rotate(rotation_matrix).apply(x)
+        
+    def apply_permutation(self, x, permutation):
+        """apply a permutation to a set of coordinates without modifying self"""
+        tform = self.__class__()
+        tform.permute(permutation).apply(x)
+        
+    def apply_inversion(self, x):
+        """invert a set of coordinates without modifying self"""
+        tform = self.__class__()
+        tform.invert().apply(x)
+    
+    def apply_translation(self, x, translation):
+        """apply a translation to a set of coordinates without modifying self"""
+        tform = self.__class__()
+        tform.translate(translation).apply(x)
+        
+        
+        
         
         

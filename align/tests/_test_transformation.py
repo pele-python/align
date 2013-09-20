@@ -103,6 +103,41 @@ class TestTransformation(unittest.TestCase):
             if i > maxiter:
                 break
 
+class TestTransformation2(unittest.TestCase):
+    def setUp(self):
+        self.natoms = 11
+        self.tform = TransformCluster3D()
+        self.x = _utils.random_configuration(self.natoms*3)
+        self.x2 = self.x.copy()
+
+    def test_apply_rotation(self):
+        rot = _utils.random_rotation()
+        
+        _utils.rotate(self.x2, rot)
+        self.tform.apply_rotation(self.x, rot)
+        self.assertLess(np.abs(self.x - self.x2).max(), 1e-3)
+    
+    def test_apply_permutation(self):
+        rot = _utils.random_permutation(self.natoms)
+        
+        _utils.permute(self.x2, rot)
+        self.tform.apply_permutation(self.x, rot)
+        self.assertLess(np.abs(self.x - self.x2).max(), 1e-3)
+    
+    def test_apply_translation(self):
+        rot = _utils.random_translation()
+        
+        _utils.translate(self.x2, rot)
+        self.tform.apply_translation(self.x, rot)
+        self.assertLess(np.abs(self.x - self.x2).max(), 1e-3)
+    
+    def test_apply_inversion(self):
+        _utils.invert(self.x2)
+        self.tform.apply_inversion(self.x)
+        self.assertLess(np.abs(self.x - self.x2).max(), 1e-3)
+    
+        
+        
 
 if __name__ == "__main__":
     unittest.main()     
