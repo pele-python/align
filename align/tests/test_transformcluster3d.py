@@ -6,7 +6,8 @@ Created on 12 Sep 2013
 import unittest
 import numpy as np
 from align import TransformCluster3D
-from _utils import random_rotation
+from align._utils import random_rotation, random_permutation
+
 
 
 class TestTransformCluster3D(unittest.TestCase):
@@ -50,7 +51,6 @@ class TestTransformCluster3D(unittest.TestCase):
         self.assertLess(np.linalg.norm(coords2 - np.array([0., 0., 0., 3., 3., 3.])), 1e-10)
         
     def testPermute(self):
-        from _utils import random_permutation
         for i in xrange(100):
             coords2 = np.random.random(3*20)
             coords = coords2.copy().reshape([-1,3])
@@ -76,7 +76,6 @@ class TestTransformCluster3D(unittest.TestCase):
         
         
     def testCombine(self):
-        from _utils import random_rotation
         for i in xrange(100):
             dx1 = np.random.random(3)
             R1 = random_rotation()

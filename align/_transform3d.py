@@ -74,10 +74,11 @@ class TransformCluster3D(Transformation):
         self.A[0:3,-1]=np.dot(R, self.A[0:3,-1])
         return self
     
-    def permute(self, permutations):
-        assert(self.permutation is not None)
-        assert(len(self.permutation) == len(permutations))
-        self.permutation[:] = self.permutation[permutations]
+    def permute(self, permutation):
+        if self.permutation is None:
+            self.nsites = len(permutation)
+        assert(len(self.permutation) == len(permutation))
+        self.permutation[:] = self.permutation[permutation]
         return self
     
     def invert(self):
@@ -92,3 +93,11 @@ class TransformCluster3D(Transformation):
         if not self.permutation is None:
             raise RuntimeError("cannot change number of sites in transformation class")
         self.permutation = np.arange(nsites)
+        
+    def apply_rotation(self, x, mx):
+        """apply a rotation matrix to a set of coordinates without modifying self"""
+        tform = self.__new__()
+        tform.rotate(mx)
+        tform.apply(x)
+        
+        

@@ -1,5 +1,5 @@
 import numpy as np
-from align.tests._utils import q2mx
+from align._utils import q2mx
 
 
 def findrotation_kabsch(coords1, coords2):

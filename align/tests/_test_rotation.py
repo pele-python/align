@@ -2,9 +2,9 @@ import unittest
 
 import numpy as np
 
-import _utils
-from align._atomic_cluster import TransformPolicyAtomicCluster, MeasureCartesian
 from align._optimize_rotation import findrotation_kabsch, findrotation_kearsley
+import align._utils as _utils
+from align._atomic_cluster import TransformPolicyAtomicCluster, MeasureCartesian
 
 
 class TestFindRotation(unittest.TestCase):
@@ -22,8 +22,8 @@ class TestFindRotation(unittest.TestCase):
         x0bk = x0.copy()
         x1bk = x1.copy()
         
-#        rot = findrotation_kabsch(x0, x1)
-        rot = findrotation_kearsley(x0, x1)
+        rot = findrotation_kabsch(x0, x1)
+#        rot = findrotation_kearsley(x0, x1)
         
         self.assertTrue((x0 == x0bk).all())
         self.assertTrue((x1 == x1bk).all())

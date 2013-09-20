@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-import _utils
+import align._utils as _utils
 from align._src._cost_matrix import _cost_matrix_cartesian
 from align._optimize_permutations import optimize_permutations, _optimize_permutations_hungarian, _optimize_permutations_optim
 from align._atomic_cluster import TransformPolicyAtomicCluster, MeasureCartesian

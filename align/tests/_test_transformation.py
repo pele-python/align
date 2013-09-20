@@ -2,7 +2,7 @@ import unittest
 import itertools
 import numpy as np
 
-import _utils
+import align._utils as _utils
 from align._atomic_cluster import TransformPolicyAtomicCluster
 from align import TransformCluster3D
 

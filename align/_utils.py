@@ -75,5 +75,34 @@ def random_permutation_permlist(permlist, natoms):
         np.random.shuffle(a)
         for iold, inew in izip(atomlist, a):
             perm[iold] = inew
-    print perm
+#    print perm
     return perm
+
+def translate(X, d):
+    Xtmp = X.reshape([-1,3])
+    Xtmp += d
+
+def rotate(X, mx):
+    Xtmp = X.reshape([-1,3])
+    Xtmp = np.dot(mx, Xtmp.transpose()).transpose()
+    X[:] = Xtmp.reshape(X.shape)
+
+def permute(X, perm):
+    a = X.reshape(-1,3)[perm].flatten()
+    # now modify the passed object, X
+    X[:] = a[:]
+
+def invert(X):
+    X[:] = -X
+
+def translate_randomly(X):
+    translate(X, random_translation())
+
+def rotate_randomly(X):
+    rotate(X, random_rotation())
+
+def permute_randomly(X, permlist, natoms):
+    permute(X, random_permutation_permlist(permlist, natoms))
+
+
+
