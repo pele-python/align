@@ -116,9 +116,6 @@ class TestAlignClusterSimple(unittest.TestCase):
             if i > maxiter:
                 break
 
-for can_permute in [True, False]:
-    for can_invert in [True, False]:
-
 class TestAlignClusterSimple1(TestAlignClusterSimple):
     def setUp(self):
         policy = TransformPolicyAtomicCluster(can_permute=False, can_rotate=True, can_invert=True, can_translate=True)
